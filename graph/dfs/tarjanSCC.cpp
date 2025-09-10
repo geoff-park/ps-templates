@@ -43,8 +43,23 @@ void tarjan(int u) {
     if (dfs_num[v] == 0) {  // not visited
       tarjan(v);            // 재귀 호출로 v의 서브트리를 다 처리하고 돌아온다.
 
-      low[u] = min(low[u], low[v]);
-      // TODO: 여기서부터 주석 + 코드 작성
+      low[u] = min(low[u], low[v]);  // 돌아온 뒤, "u가 v를 통해 더 위로 갈 수 있었는가?"를 반영
+    } else if (visited[v]) {         // 방문했고 스택 안에 있으면
+      low[u] = min(low[u], dfs_num[v]);
     }
+  }
+
+  // u가 SCC의 root일 때
+  if (low[u] == dfs_num[u]) {
+    vector<int> comp;
+    while (true) {
+      int v = st.top();
+      st.pop();
+      visited[v] = 0;  // stack에서 제거
+      comp.push_back(v);
+      if (v == u) break;
+    }
+
+    SCC.push_back(comp);
   }
 }
