@@ -39,7 +39,7 @@ void tarjan(int u) {
     if (dfs_num[v] == 0) {  // not visited
       tarjan(v);            // after tarjan[v], low[v] is determined
       low[u] = min(low[u], low[v]);
-    } else if (visited[v]) {  // visited && not in stack -> inverse edge
+    } else if (visited[v]) {  // visited && in stack -> inverse edge
       low[u] = min(low[u], dfs_num[v]);
     }
   }
